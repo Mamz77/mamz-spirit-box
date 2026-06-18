@@ -65,7 +65,7 @@ export class AudioEngine {
 
     // Distortion for radio effect
     this.distortion = this.ctx.createWaveShaper();
-    this.distortion.curve = this.makeDistortionCurve(200);
+    this.distortion.curve = this.makeDistortionCurve(200) as any;
     this.distortion.oversample = '4x';
 
     // Connect: noise -> noiseGain -> bandPass -> highPass -> lowPass -> distortion -> compressor -> masterGain -> analyser -> dest
@@ -88,7 +88,7 @@ export class AudioEngine {
     this.isInitialized = true;
   }
 
-private makeDistortionCurve(amount: number) {
+private makeDistortionCurve(amount: number): any {
   const samples = 256;
   const curve = new Float32Array(samples);
 
@@ -100,6 +100,9 @@ private makeDistortionCurve(amount: number) {
       ((3 + amount) * x * 20 * deg) /
       (Math.PI + amount * Math.abs(x));
   }
+
+  return curve;
+}
 
   return curve;
 }
