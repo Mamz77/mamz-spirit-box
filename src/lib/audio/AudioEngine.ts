@@ -88,16 +88,21 @@ export class AudioEngine {
     this.isInitialized = true;
   }
 
-  private makeDistortionCurve(amount: number): Float32Array {
-    const samples = 256;
-    const curve = new Float32Array(samples);
-    const deg = Math.PI / 180;
-    for (let i = 0; i < samples; i++) {
-      const x = (i * 2) / samples - 1;
-      curve[i] = ((3 + amount) * x * 20 * deg) / (Math.PI + amount * Math.abs(x));
-    }
-    return curve;
+private makeDistortionCurve(amount: number) {
+  const samples = 256;
+  const curve = new Float32Array(samples);
+
+  const deg = Math.PI / 180;
+
+  for (let i = 0; i < samples; i++) {
+    const x = (i * 2) / samples - 1;
+    curve[i] =
+      ((3 + amount) * x * 20 * deg) /
+      (Math.PI + amount * Math.abs(x));
   }
+
+  return curve;
+}
 
   private generateNoiseBuffer(type: NoiseType | 'pink'): AudioBuffer {
     if (!this.ctx) throw new Error('AudioContext not initialized');
